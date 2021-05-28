@@ -1,0 +1,390 @@
+{% load static %}
+{% load flatpages %}
+{% get_flatpages as flatpages %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>
+        {% block title %}
+        {% endblock title %}
+    </title>
+    <link rel="shortcut icon" href="{% static 'img/trade.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.0/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700" rel="stylesheet">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    {% block meta %}
+    
+    {% endblock meta %}
+        
+    <style>
+        @media only screen and (max-width: 480px) and (min-width: 0px) {
+            .search-mobile {
+                display: block !important;
+            }
+
+            .bottom {
+                padding-top: 0 !important;
+            }
+
+            #feature-text-main {
+                font-size: 95%;
+            }
+        }
+
+        @media only screen and (min-width: 500px) {
+            #mobile-only-logo {
+                display: none;
+            }
+            
+        }
+
+        @media only screen and (max-width: 499px) {
+            #global-logo {
+                display: none;
+            }
+            .topbar-mobile {
+                border: none !important;
+            }
+        }
+        .ver2 .prod-item-img a img {
+            width:250px !important;
+            height:200px !important;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    {% include 'partials/_message.html' %}
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">SEARCH HERE</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <form method="get" class="searchform" action="{% url 'products:search' %}" role="search">
+                            <input type="hidden" name="type" value="product">
+                            <input type="text" name="q" class="form-control control-search">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default button_search" type="button"><i data-toggle="dropdown"
+                                        class="ion-ios-search"></i></button>
+                            </span>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <header>
+        <div class="topbar-mobile hidden-lg hidden-md">
+            <div class="active-mobile">
+                <a id="mobile-only-logo" href="{% url 'shops:home' %}" style="text-align: center;"
+                    title="Dokan haru"><img width="150" src="{% static 'img/trade.png' %}" alt="dokanharu"
+                        class="img-reponsive"></a>
+            </div>
+            <div class="right-nav">
+                <div class="active-mobile">
+                    <div class="header_user_info popup-over e-scale hidden-lg hidden-md dropdown">
+                        <div data-toggle="dropdown" class="popup-title dropdown-toggle" title="Account">
+                            <i class="ion-android-person"></i><span> Account</span>
+                        </div>
+                        <ul class="links dropdown-menu list-unstyled">
+                            {% if request.user.is_authenticated %}
+                            <li>
+                                <a id="customer_login_link" href="{% url 'logout' %}" title="Sign out"><i
+                                        class="ion-log-out"></i>
+                                    Logout</a>
+                            </li>
+                            <li>
+                                <a class="account" rel="nofollow" href="{% url 'core:dashboard' %}"
+                                    title="My account"><i class="ion-ios-person"></i> My Dashboard</a>
+                            </li>
+                            {% else %}
+                            <li>
+                                <a id="customer_login_link" href="{% url 'login' %}" title="Sign in"><i
+                                        class="ion-log-in"></i>
+                                    Login</a>
+                            </li>
+                            <li>
+                                <a id="customer_register_link" href="{% url 'register' %}" title="Register"><i
+                                        class="ion-ios-personadd"></i> Register</a>
+                            </li>
+                            {% endif %}
+                            {% comment %} <li>
+                                <a id="wishlist-total" title="Wishlist" href="#"><i class="ion-ios-heart"></i>
+                                    Wishlist</a>
+                            </li> {% endcomment %}
+
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="top-nav hidden-xs hidden-sm">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                        <div class="left-nav">
+                            <!-- 
+                            <div class="language dropdown">
+                                <a id="label2" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <span class="icon"><i class="ion-ios-world-outline" aria-hidden="true"></i></span>
+                                    <span>English</span>
+                                    <span class="ion-chevron-down"></span>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="label2">
+                                    <li><a href="#">English</a></li>
+                                    <li><a href="#">Nepalese</a></li>
+                                </ul>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        <div class="right-nav">
+                            <ul>
+                                <!-- <li><a href="#"><i class="ion-ios-heart fa-1a" aria-hidden="true"></i>wishlist</a></li> -->
+
+                                {% if request.user.is_authenticated %}
+
+                                <li><a href="{% url 'logout' %}"><i class="ion-log-out fa-1a"
+                                            aria-hidden="true"></i>logout</a></li>
+                                <li><a href="{% url 'core:dashboard' %}"><i class="ion-ios-personadd fa-1a"
+                                            aria-hidden="true"></i>My Dashboard</a></li>
+                                {% else %}
+                                <li><a href="{% url 'register' %}"><i class="ion-ios-personadd fa-1a"
+                                            aria-hidden="true"></i>create
+                                        account</a></li>
+                                <li><a href="{% url 'login' %}"><i class="ion-log-in fa-1a"
+                                            aria-hidden="true"></i>login</a></li>
+                                {% endif %}
+
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-8 col-xs-7 logo">
+                        <a id="global-logo" href="{% url 'shops:home' %}" style="text-align: center;"
+                            title="Dokan haru"><img src="{% static 'img/trade.png' %}" alt="images"
+                                class="img-reponsive"></a>
+                    </div>
+                    <div class="search search-mobile hidden-sm hidden-md hidden-lg hidden-xl">
+                        <form action="{% url 'products:search' %}" class="search-form">
+                            <input type="text" name="term" class="form-control" placeholder="Search here"
+                                value="{{request.GET.term}}">
+                            <button type="submit" class="search-icon"></button>
+                        </form>
+                    </div>
+                    <div class="col-md-9 col-sm-4 col-xs-5 nextlogo">
+
+                        <div class="block block-1">
+                            <div class="protect">
+                                <div class="photo">
+                                    <svg width="28" height="33" id="Capa_1" data-name="Capa 1"
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180.05 214.27">
+                                        <title>security</title>
+                                        <path
+                                            d="M196.93,55.17c-.11-5.78-.21-11.25-.21-16.54a7.5,7.5,0,0,0-7.5-7.5c-32.07,0-56.5-9.22-76.85-29a7.5,7.5,0,0,0-10.46,0c-20.35,19.79-44.77,29-76.84,29a7.5,7.5,0,0,0-7.5,7.5c0,5.29-.1,10.76-.22,16.54-1,53.84-2.44,127.57,87.33,158.68a7.49,7.49,0,0,0,4.91,0C199.36,182.74,198,109,196.93,55.17ZM107.13,198.81c-77-28-75.82-89.23-74.79-143.35.06-3.25.12-6.4.16-9.48,30-1.27,54.06-10.37,74.63-28.28,20.57,17.91,44.59,27,74.63,28.28,0,3.08.1,6.23.16,9.48C183,109.58,184.12,170.84,107.13,198.81Z"
+                                            transform="translate(-17.11 0)" />
+                                        <path
+                                            d="M133,81.08l-36.2,36.2L81.31,101.83a7.5,7.5,0,0,0-10.61,10.61l20.75,20.75a7.5,7.5,0,0,0,10.61,0l41.5-41.5A7.5,7.5,0,1,0,133,81.08Z"
+                                            transform="translate(-17.11 0)" />
+                                    </svg>
+                                </div>
+                                <p class="inform">
+                                    <span class="strong">Safe<br></span> Reliable
+                                </p>
+                            </div>
+
+                        </div>
+                        <div class="search hidden-xs ">
+                            <form action="{% url 'products:search' %}" class="search-form">
+                                <input type="text" name="term" class="form-control"
+                                    placeholder="Search entrie dokanharu here" value="{{request.GET.term}}">
+                                <button type="submit" class="search-icon"></button>
+                            </form>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="menu">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-4 col-xs-6 column-left">
+                        <aside id="column-left">
+                            <nav class="navbar-default">
+                                <div class="menu-heading js-nav-menu">CATEGORIES</div>
+                                <div
+                                    class="vertical-wrapper js-dropdown-menu js-dropdown-open {% if '/' == request.path %}active{% endif %}">
+                                    <ul class="level0">
+                                        {% if categories %}
+                                        {% for category in categories %}
+                                        <li><a href="{% url 'products:category' category.slug %}">{{category.title}}</a>
+                                        </li>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </nav>
+                        </aside>
+                    </div>
+                    <div class="col-md-9 col-sm-8 col-xs-6 column-right">
+
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="menu-title">MENU</span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="myNavbar">
+                            <ul class="menubar js-menubar">
+                                <li class=" menu-homepage menu-item-has-child dropdown">
+                                    <a href="{% url 'shops:home' %}" title="Home"><i class="fa fa-home"></i>home</a>
+                                    <span class="plus js-plus-icon"></span>
+
+                                </li>
+                                <li class="menu-collection-page menu-item-has-child dropdown">
+                                    <a href="{% url 'shops:all-shops' %}" title="Marketplace">All Brands</a>
+                                    <span class="plus js-plus-icon"></span>
+
+                                </li>
+
+
+                                <li class="dropdown menu-blog-page menu-item-has-child">
+                                    <a href="https://blog.dokanharu.com/" title="Blog">Our stores</a>
+                                    <span class="plus js-plus-icon"></span>
+
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header -->
+
+    {% block content %}
+
+    {% endblock content %}
+
+    <div class="features">
+        <div class="container">
+            <h3 style="text-align: center;color:white;" id="feature-text-main">
+                Quality matters ! Choose your perfect Brand.
+            </h3>
+        </div>
+    </div>
+    <footer>
+        <div class="info">
+            <div class="container">
+                <div class="row ">
+                    <div class="col-md-3 col-xs-12 ">
+                        <div class="photo">
+                            <a href="#"><img src="{% static 'img/trade.png' %}" alt="images"
+                                    class="img-responsive"></a>
+                        </div>
+                        <p class="info-desc">
+                            Trade Nepal Online Pvt. Ltd.(tradenpl.com) is platform for Company to promote their Brand. It recognize 
+                            World class brand in Nepali Market.
+                        </p>
+                        <div class="widget-info">
+                            <ul>
+                                <li><i class="ion-ios-location fa-4" aria-hidden="true"></i>Biratnagar, Nepal</li>
+                                <li class="clearfix"></li>
+
+                                <li class="clearfix"></li>
+                                <li><i class="ion-email-unread fa-4" aria-hidden="true"></i>
+                                    <p class="title-contain">tradenpl.com@gmail.com</p>
+                                </li>
+                                <li class="clearfix"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-xs-12">
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12">
+                                <h3>let us help you</h3>
+                                <ul class="fmenu">
+                                    <li><a href="{% url 'core:dashboard' %}">
+                                            My Dashboard
+                                        </a></li>
+                                    <li><a href="{% url 'shops:all-shops' %}">Browse all Brands</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6 col-xs-12 pd-left">
+                                <h3>useful links</h3>
+                                <ul class="fmenu">
+                                    {% for page in flatpages %}
+
+                                    <li><a href="about{{ page.url }}">{{ page.title }}</a></li>
+                                    {% endfor %}
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-12">
+
+                        <h3 class="titles">FIND US ON:</h3>
+                        <ul class="social">
+                            <li><a href="https://www.facebook.com/tradenpl/"><i
+                                        class="ion-social-facebook fa-3" aria-hidden="true"></i> </a></li>
+                            <li><a href="https://www.instagram.com/tradenpl/"><i class="ion-social-instagram fa-3"
+                                        aria-hidden="true"></i></a></li>
+                            <li><a href="https://twitter.com/NepalTrade"><i class="ion-social-twitter fa-3"
+                                        aria-hidden="true"></i></a></li>
+                            <li><a href="https://www.youtube.com/channel/UCMHBJRO8knI4mCX6B7w1HKQ?view_as=subscriber/"><i
+                                        class="ion-social-youtube fa-3" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <div class="container">
+                <span>© <a href="#" title="">Tradenpl.com</a> - All Rights Reserved.</span>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </footer>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js">
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js">
+    </script>
+
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

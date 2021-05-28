@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Update Dokan
+{% endblock title %}
+
+{% block content %}
+<div class="container text-center my-5">
+    <br>
+    <br>
+    <h1 class="my-2">Update your Dokan</h1>
+
+    <br>
+</div>
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            {% if request.user.id == shop.owner.id %}
+            <div class="card">
+                <form enctype="multipart/form-data" method="POST">
+                    {{ form | crispy }}
+                    {% csrf_token %}
+                    <input type="submit" value="Update Dokan" class="btn-order py-0">
+                </form>
+                <br>
+
+            </div>
+            {% else %}
+            <h4>You can't perform this action. Please contact the website administrator.</h4>
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock content %}

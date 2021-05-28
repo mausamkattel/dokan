@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Register
+{% endblock title %}
+
+{% block content %}
+<div class="container my-5">
+    <br>
+    <br>
+    <h1 class="text-center">Create your account</h1>
+</div>
+<br>
+{% if form.errors %}
+<!-- <p class="text-center"> Your username and password didn't match. Please try again </p> -->
+{% endif %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
+            <div class="card">
+                <form method="POST">
+                    {{ user_form | crispy }}
+                    {% csrf_token %}
+                    <input type="submit" value="Create" class="btn-order py-0">
+                </form>
+                <br>
+                <p class="text-center mt-2">
+                    <a href="{% url 'login' %}">Already have an account? Login</a>
+                </p>
+                <p class="text-center mt-2">
+                    By using Dokanharu.com you agree to follow all our policies, terms and agreements.
+                </p>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            {% comment %} <a href="{% url "social:begin" "facebook" %}">
+                <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSFxBuyQC7mCX0SJkKhl0k-ArGFDx1EwlgmrAUSBwiXAWZliViu&usqp=CAU">
+            </a>
+            <br> {% endcomment %}
+            <br>
+            <a href="{% url "social:begin" "google-oauth2" %}">
+                <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQeuFKo2qlOyOQb5dedYJbaWQVETY3swhWL5g3wkcFaGVtca8Wj&usqp=CAU">
+            </a>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock content %}

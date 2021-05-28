@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Login
+{% endblock title %}
+
+{% block content %}
+<div class="container my-5">
+    <br>
+    <br>
+    <h1 class="text-center">Login with your account</h1>
+</div>
+<br>
+{% if form.errors %}
+<!-- <p class="text-center"> Your username and password didn't match. Please try again </p> -->
+{% endif %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
+            <div class="card">
+                <form action="{% url 'login' %}" method="POST">
+                    {{ form | crispy }}
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{next}}">
+                    <input type="submit" value="Login" class="btn-order py-0">
+                </form>
+                <br>
+                <p class="text-center mt-2">
+                    <a href="{% url 'password_reset' %}">Forgot your password?</a>
+                </p>
+                <p class="text-center mt-2">
+                    <a href="{% url 'register' %}">Create new account</a>
+                </p>
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            {% comment %} <a href="{% url "social:begin" "facebook" %}">
+                <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSFxBuyQC7mCX0SJkKhl0k-ArGFDx1EwlgmrAUSBwiXAWZliViu&usqp=CAU">
+            </a>
+            <br> {% endcomment %}
+            <br>
+            <a href="{% url "social:begin" "google-oauth2" %}">
+                <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQeuFKo2qlOyOQb5dedYJbaWQVETY3swhWL5g3wkcFaGVtca8Wj&usqp=CAU">
+            </a>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock content %}

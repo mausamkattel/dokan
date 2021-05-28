@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Dokan Created
+{% endblock title %}
+{% block content %}
+<section class="checkout-page">
+    <div class="container">
+        <div class="heading-sub">
+            <h3 class="pull-left">Shop Created</h3>
+            <ul class="other-link-sub pull-right">
+                <li><a href="/">Home</a></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="complete-page text-center">
+            {% if request.user.is_seller == True %}
+            <h2 class="status">
+                <span class="ion-checkmark-circled fa-4 icon-check"></span>
+                Congratulations! You have became a <span>seller</span>
+            </h2>
+            <br>
+            <p class="lead my-2">
+                You can manage your Dokan and start adding products from the dashboard.
+            </p>
+            <h5><a href="{% url 'core:dashboard' %}">Go to Dashboard</a></h5>
+            {% else %}
+            <h2>
+                Page not found
+            </h2>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

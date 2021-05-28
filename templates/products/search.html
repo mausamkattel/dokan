@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load remove_dash %}
+
+{% block title %}
+Search results for "{{request.GET.term}}"
+{% endblock title %}
+
+{% block content %}
+<section class="shop-list-v3-page">
+    <div class="container">
+        <div class="heading-sub">
+            <h3 class="pull-left">Search results for "{{request.GET.term}}"</h3>
+            <div class="clearfix"></div>
+<h5>Total {{page_obj.paginator.count}} results</h5>
+        </div>
+
+        <div class="widget-product-list">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="filter-block bd" style="padding-top:0 !important;">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="box box-view">
+                                    
+            <div class="box sort">
+                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;Category:</span>
+                                    <button class="dropdown-toggle" type="button" data-toggle="dropdown" id="menu2">
+                                        <span class="dropdown-label">{% if request.GET.category %}{{request.GET.category.title|remove_dash|title}}{% else %}All{% endif %}</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+                                        <li><a href="?category=All&sort=relevance&term={{request.GET.term}}&page=1" title="">All</a></li>
+                                        {% for category in categories_list %}
+                                        <li><a href="?category={{category.slug}}&sort=relevance&term={{request.GET.term}}&page=1" title="">{{category.title}}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                </div>
+                                
+                            </div>
+                            <div class="col-md-7 margin-top3">
+
+                                <div class="box sort pull-right">
+                                    <span>Sort by:</span>
+                                    <button class="dropdown-toggle" type="button" data-toggle="dropdown" id="menu2">
+                                        <span class="dropdown-label">{% if request.GET.sort %}{{request.GET.sort|title}}{% else %}Relevance{% endif %}</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+                                        <li><a href="?category={{request.GET.category}}&sort=relevance&term={{request.GET.term}}&page=1" title="">Relevance</a></li>
+                                        <li><a href="?category={{request.GET.category}}&sort=latest&term={{request.GET.term}}&page=1" title="">Latest</a></li>
+                                        <li><a href="?category={{request.GET.category}}&sort=price high to low&term={{request.GET.term}}&page=1" title="">Price: High to Low</a></li>
+                                        <li><a href="?category={{request.GET.category}}&sort=price low to high&term={{request.GET.term}}&page=1" title="">Price: Low to High</a></li>
+                                    </ul>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="prod-fea-list">
+                            <div class="row">
+                                {% for product in products %}
+                                {% include 'partials/_product.html' with type='featured' %}
+                                {% endfor %}
+                            </div>
+                            <div class="product-pagination">
+                                {% if is_paginated %}
+                                <ul class="pagination">
+                                    {% if page_obj.has_previous %}
+                                    <li><a
+                                            href="?category={{request.GET.category}}&sort={{request.GET.sort}}&page={{ page_obj.previous_page_number }}&term={{request.GET.term}}">&laquo;</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="disabled"><span>&laquo;</span></li>
+                                    {% endif %}
+                                    {% for i in paginator.page_range %}
+                                    {% if page_obj.number == i %}
+                                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                    {% else %}
+                                    <li><a href="?category={{request.GET.category}}&sort={{request.GET.sort}}&page={{ i }}&term={{request.GET.term}}">{{ i }}</a></li>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% if page_obj.has_next %}
+                                    <li><a
+                                            href="?category={{request.GET.category}}&sort={{request.GET.sort}}&page={{ page_obj.next_page_number }}&term={{request.GET.term}}">&raquo;</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="disabled"><span>&raquo;</span></li>
+                                    {% endif %}
+                                </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+{% endblock content %}
+

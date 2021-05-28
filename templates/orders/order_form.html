@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Place Order
+{% endblock title %}
+
+{% block content %}
+<div class="container text-center my-5">
+    <br>
+    <br>
+    <h1 class="my-2">Place Order for:</h1>
+    <br>
+    <h4><a href="{{product.get_absolute_url}}">{{product.name}}</a> from {{product.shop.name}}</h4>
+
+    <br>
+</div>
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="card">
+                {% if product.shop.id != request.user.shop.id %}
+                <form enctype="multipart/form-data" method="POST">
+                    {{ form | crispy }}
+                    {% csrf_token %}
+                    <input type="submit" value="Place Order" class="btn-order py-0">
+                </form>
+                {% else %}
+                <h4>You can not order your own item</h4>
+                <a href="{% url 'core:dashboard' %}">Go to dashboard</a>
+                {% endif %}
+                <br>
+
+            </div>
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock content %}

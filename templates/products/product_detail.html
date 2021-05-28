@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+{{product.name}}
+{% endblock title %}
+
+{% block meta %}
+    <!-- Primary Meta Tags -->
+<meta name="title" content="{{product.name}} | Dokanharu">
+<meta name="description" content="{{product.description}}">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{product.name}} | Dokanharu">
+<meta property="og:description" content="{{product.description}}">
+<meta property="og:image" content="https://dokanharu.com/{{product.main_image.url}}">
+
+{% endblock meta %}
+
+
+{% block content %}
+<section class="shop-single-page">
+    <div class="container">
+        <div class="heading-sub">
+            <h3 class="pull-left">Product Detail</h3>
+            <ul class="other-link-sub pull-right">
+                <li><a href="/">Home</a></li>
+                <li><a class="active" href="#detail">{{product.name}}</a></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="widget-shop-single">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="shop-single-item-img">
+                        <div class="main-img">
+                            <div class="main-img-item">
+                                <a href="#"><img src="{{product.main_image.url}}" alt="{{product.name}}"
+                                        class="img-responsive"></a>
+                            </div>
+                            {% if product.image1 %}
+                            <div class="main-img-item">
+                                <a href="#"><img src="{{product.image1.url}}" alt="{{product.name}}"
+                                        class="img-responsive"></a>
+                            </div>
+                            {% endif %}
+                            {% if product.image2 %}
+                            <div class="main-img-item">
+                                <a href="#"><img src="{{product.image2.url}}" alt="{{product.name}}"
+                                        class="img-responsive"></a>
+                            </div>
+                            {% endif %}
+                            {% if product.image3 %}
+                            <div class="main-img-item">
+                                <a href="#"><img src="{{product.image3.url}}" alt="{{product.name}}"
+                                        class="img-responsive"></a>
+                            </div>
+                            {% endif %}
+                            {% if product.image4 %}
+                            <div class="main-img-item">
+                                <a href="#"><img src="{{product.image4.url}}" alt="{{product.name}}"
+                                        class="img-responsive"></a>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <ul class="multiple-img-list">
+                            <li>
+                                <div class="product-col">
+                                    <div class="img">
+                                        <a href="#"><img src="{{product.main_image.url}}" alt="{{product.name}}"
+                                                class="img-responsive"></a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% if product.image1 %}
+                            <li>
+                                <div class="product-col">
+                                    <div class="img">
+                                        <a href="#"><img src="{{product.image1.url}}" alt="{{product.name}}"
+                                                class="img-responsive"></a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% if product.image2 %}
+                            <li>
+                                <div class="product-col">
+                                    <div class="img">
+                                        <a href="#"><img src="{{product.image2.url}}" alt="{{product.name}}"
+                                                class="img-responsive"></a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% if product.image3 %}
+                            <li>
+                                <div class="product-col">
+                                    <div class="img">
+                                        <a href="#"><img src="{{product.image3.url}}" alt="{{product.name}}"
+                                                class="img-responsive"></a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% if product.image4 %}
+                            <li>
+                                <div class="product-col">
+                                    <div class="img">
+                                        <a href="#"><img src="{{product.image4.url}}" alt="{{product.name}}"
+                                                class="img-responsive"></a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="shop-sing-item-detail">
+                        <h3><a href="#">
+                                {{product.name}}
+                            </a></h3>
+                        <div class="brandname">by <strong><a
+                                    href="{{product.shop.get_absolute_url}}">{{product.shop.name}}</a></strong>
+                            &nbsp;&nbsp;
+                            {% if product.shop.is_trusted %}
+                            <span
+                                style="color:white;background:#6bce04; padding:3px 4px; border-radius:3px;">Trusted</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="prod-price">
+                            <div class="p-price">
+                                {% if product.discounted_price < product.price %}
+                                <span class="price old">Rs. {{product.price}}</span>
+                                <span class="price">Rs. {{product.discounted_price}}</span>
+                                {% else %}
+                                <span class="price black">Rs. {{product.price}}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="description">
+                            {{product.sub_title}}
+                        </div>
+                        <div>
+                            <h5 class="titles">Share this product on:</h5>
+                            <br>
+                            <ul class="social">
+                                <li><a href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}"
+                                        target="_blank"><i class="ion-social-facebook fa-3" aria-hidden="true"></i> </a>
+                                </li>
+
+                                <li><a href="https://twitter.com/home?status={{request.build_absolute_uri}}"
+                                        target="_blank"><i class="ion-social-twitter fa-3" aria-hidden="true"></i></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <br>
+                        <div class="group-button">
+                            <div class="button-ver2">
+                                <a class="link-ver1 addcart-ver2" href="{% url 'orders:order_create' product.pk %}">
+                                    <span class="icon"></span>Place Order
+                                </a>
+
+                            </div>
+                        </div>
+                        <div class="product-feature">
+                            <ul class="product-feature-1">
+                                <li><strong>Instock:</strong> {% if product.in_stock %}Yes{% else %}No{% endif %}</li>
+                                <li><strong>Brand:</strong> {{product.brand}}</li>
+                            </ul>
+                            <ul class="product-feature-2">
+                                <li><strong>SKU:</strong> {{product.sku}}</li>
+                                <li><strong>Category:</strong> {{product.category}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="product-detail-bottom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#desc">Description</a></li>
+                </ul>
+                <div class="tab-content padding-lr">
+                    <div id="desc" class="tab-pane fade in active">
+                        <br>
+                        {{product.description}}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <section class="featured-product">
+            <div class="container">
+                <div class="heading-v1">
+                    <h3>MORE PRODUCT BY <a style="color:#6bce04;"
+                            href="{{product.shop.get_absolute_url}}">{{product.shop.name}}</a></h3>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="tab-content">
+                    <div id="all" class="tab-pane fade in active">
+                        <div class="prod-fea-list">
+                            <div class="row">
+                                {% for product in shop_products %}
+                                {% include 'partials/_product.html' with type='featured' %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <br>
+        <br>
+    </div>
+</section>
+{% endblock content %}

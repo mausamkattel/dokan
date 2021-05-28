@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{{flatpage.title}}
+{% endblock title %}
+
+{% block content %}
+<section class="about-us-page">
+    <div class="container">
+        
+        <div class="widget-about-us">
+        <h3 class="pull-left">{{flatpage.title}}</h3>
+        <div class="clearfix">
+        </div>
+        <br>
+        <div style="font-size:17px;">
+        {{flatpage.content}}
+        </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

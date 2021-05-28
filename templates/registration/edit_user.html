@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Edit Profile
+{% endblock title %}
+
+{% block content %}
+<div class="container my-5">
+    <br>
+    <br>
+    <h1 class="text-center">Edit your Profile</h1>
+    <br>
+</div>
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="card">
+                <form enctype="multipart/form-data" method="POST">
+                    {{ form | crispy }}
+                    {% csrf_token %}
+                    <input type="submit" value="Edit" class="btn-order py-0">
+                </form>
+                <br>
+
+            </div>
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock content %}

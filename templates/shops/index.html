@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Dokanharu
+{% endblock title %}
+
+
+{% block meta %}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Trade Nepal | Choose your perfect Brand">
+<meta property="og:description" content="TradeNpl.com is a platform to get products of your desire Brand and promote your Brand.
+">
+<meta property="og:image" content="https://dokanharu.com/media/shops/shops/shops/7.jpg">
+
+{% endblock meta %}
+
+{% block content %}
+<section class="slide">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-9 col-sm-12 col-xs-12">
+                <div class="row top-row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="single-item js-banner">
+
+                            {% for banner in banners %}
+                            <div class="slide-img">
+                                <img src="{{banner.image.url}}" alt="images" class="img-reponsive">
+                                <div class="slide-content ver2">
+                                    <!--<h5 class="brand" style="color:white;"></h5>-->
+                                    <h2 style="color:white;"></h2>
+                                </div>
+                                <a href="{{banner.link}}" class="slide-button">Get the Link</a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="container-fluid">
+                        <div class="jumbotron">
+                            <h3 style="color:rgb(34, 133, 199)">Brand awareness </h3>
+                            <br> <button type="button" style="background-color: rgb(21, 122, 180);">                   
+                            <a style="size: 20px; color:rgb(255, 255, 255)" href="{% url 'shops:create-shop' %}"  >Register your Brand </a></button>  
+                            &nbsp;&nbsp;
+                            <button>
+                            <a href="{% url 'shops:all-shops' %}" title="Marketplace">View Brands</a></button>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sub-banner"><div style="padding-left: 100px;"><img style="align-content: right;" sizes="50%" src="{% static 'img/search.gif' %}" alt="search your brand"></div> </div>
+</section>
+<br>
+<br>
+<br>
+<section class="featured-product">
+    <div class="container">
+        <div class="heading-v1">
+            <h3 class="pull-left">featured products</h3>
+
+            <div class="clearfix"></div>
+        </div>
+        <div class="tab-content">
+            <div id="all" class="tab-pane fade in active">
+                <div class="prod-fea-list">
+                    <div class="row">
+                        {% for product in featured_products %}
+                        {% include 'partials/_product.html' with type='featured' %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="popular-product">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                <div class="heading-v2">
+                    <ul class="breadcrumb-ver1">
+                        <li class="active"><a data-toggle="pill" href="#popular">Latest Products</a></li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <div id="popular" class="tab-pane fade in active">
+                        <div class="pp-list">
+                            <div class="row top-row">
+                                {% for product in newest_products %}
+                                {% include 'partials/_product.html' with type='newest' %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="col-md-5 col-sm-5 col-xs-12">
+                <aside class="widget brand-v1">
+                    <div class="heading-v1">
+                        <h3>Featured Brand</h3>
+                    </div>
+                    <div class="brand-list-v1">
+
+                        {% for shop in featured_shops %}
+                        <div class="product-item ver1 bd-style">
+                            <div class="prod-item-img">
+                                <a href="{{shop.get_absolute_url}}"><img src="{{shop.image.url}}" alt="images" class="img-responsive"></a>
+                            </div>
+                            <div class="prod-info">
+                                <h3><a href="{{shop.get_absolute_url}}" class="price black">{{shop.name}}</a></h3>
+                                <div class="p-price">
+                                    <span class="black">{{shop.address}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock content %}

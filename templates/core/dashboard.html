@@ -1,0 +1,291 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Dashboard
+{% endblock title %}
+
+{% block content %}
+{% if shop %}
+<div id="hideDokan" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Hide {{shop.name}}?</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    This will make your Brand inactive in tradenpl.com and your brand plus your products wont be visible
+                    in the site. You can always comeback and make your shop active again.
+                </p>
+                <br>
+                <br>
+            </div>
+            <div class="modal-footer">
+                <a href="{% url 'shops:hide-shop' shop.pk %}" class="btn btn-danger">Hide</a>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endif %}
+
+<div class="container my-5">
+    <br>
+    <br>
+    <h1 class="text-center">Welcome to your Dashboard</h1>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills nav-stacked">
+                {% if request.user.is_seller %}
+                <li class="active"><a data-toggle="tab" href="#menu3">My Brand</a></li>
+                <li><a data-toggle="tab" href="#menu2">All Orders</a></li>
+                <li><a data-toggle="tab" href="#menu1">Account</a></li>
+                {% else %}
+                <li class="active"><a data-toggle="tab" href="#menu2">My Placed Orders</a></li>
+                <li><a data-toggle="tab" href="#menu1">My Account</a></li>
+                <li><a data-toggle="tab" href="#menu3">My Brand</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <div class="tab-content">
+                <div id="menu1" class="tab-pane fade">
+                    <h3 class="text-center">Manage your Account</h3>
+                    <br>
+                    <div class="lead text-center">
+                        <h4>Your Details</h4>
+                        <br>
+                        <img src="{% if request.user.avatar %}{{request.user.avatar.url}}{% else %}{% static 'img/test_1.jpg' %}{% endif %}"
+                            class="img-circle" width="120">
+                        <p style="font-size: 16px; font-weight:600; margin-top:6px;">{{request.user.first_name}}
+                            {{request.user.last_name}}</p>
+                        <p style="font-size: 16px; font-weight:600; margin-top:6px;">{{request.user.email}}</p>
+                        <br>
+                        <p><a style="font-size: 14px; color:#6bce04; font-weight:bold;"
+                                href="{% url 'edit' request.user.pk %}">Edit your profile</a></p>
+                        <p><a style="font-size: 14px; color:#6bce04; font-weight:bold;"
+                                href="{% url 'password_change' %}">Change your password</a></p>
+                    </div>
+                </div>
+                <div id="menu2" class="tab-pane fade {% if not request.user.is_seller %}in active{% endif %}">
+                    {% if dokanOrders %}
+                    <h3>Recieved orders to deliver by you</h3>
+                    <br>
+
+                    <div class="panel-group" id="accordion">
+                        {% for order in dokanOrders %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    {% if order.completed %}
+
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{order.id}}a">
+                                        <del>
+                                            #{{order.id}} &nbsp; {{order.product.name}} by {{order.full_name}}
+                                            &nbsp;&nbsp;&nbsp;- {{order.date_ordered}}
+                                        </del>
+                                    </a>
+                                    <a class="badge" style="float: right;background:#6bce04;"
+                                        href="{% url 'orders:status' order.pk %}">
+                                        Mark Incomplete
+                                    </a>
+
+                                    {% else %}
+
+                                    <a data-toggle="collapse" style="color:#6bce04;" data-parent="#accordion"
+                                        href="#collapse{{order.id}}a">
+                                        #{{order.id}} &nbsp; {{order.product.name}} by {{order.full_name}}
+                                        &nbsp;&nbsp;&nbsp;- {{order.date_ordered}}
+                                    </a>
+                                    <a class="badge" style="float: right;background:#6bce04;"
+                                        href="{% url 'orders:status' order.pk %}">
+                                        Mark Complete
+                                    </a>
+
+                                    {% endif %}
+                                </h4>
+                            </div>
+                            <div id="collapse{{order.id}}a" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    On <b>{{order.date_ordered}}</b>
+                                    <br>
+                                    <h5>Details Provided: </h5>
+                                    Item - <b>{{order.product.name}}</b>
+                                    <br>
+                                    Quantity - <b>{{order.quantity}}</b>
+                                    <br>
+                                    Name - <b>{{order.full_name}}</b>
+                                    <br>
+                                    Address - <b>{{order.address}}</b>
+                                    <br>
+                                    Phone Number - <b>{{order.phone_number}}</b>
+                                    <br>
+                                    Email - <b>{{order.email}}</b>
+                                    <br>
+                                    <br>
+                                    <b><a href="{{order.product.get_absolute_url}}" class="main-text-color">Link</a></b>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <hr>
+                    {% endif %}
+
+
+                    {% if orders %}
+                    <h3>History of your orders</h3>
+                    <br>
+
+                    <div class="panel-group" id="accordion">
+                        {% for order in orders %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{order.id}}">
+                                        #{{order.id}} &nbsp; {{order.product.name}}
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse{{order.id}}" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    From <b>{{order.product.shop.name}}</b> on <b>{{order.date_ordered}}</b>
+                                    <br>
+                                    <h5>Details Provided: </h5>
+                                    Item - <b>{{order.product.name}}</b>
+                                    <br>
+                                    Quantity - <b>{{order.quantity}}</b>
+                                    <br>
+                                    Name - <b>{{order.full_name}}</b>
+                                    <br>
+                                    Address - <b>{{order.address}}</b>
+                                    <br>
+                                    Phone Number - <b>{{order.phone_number}}</b>
+                                    <br>
+                                    Email - <b>{{order.email}}</b>
+                                    <br>
+                                    <br>
+                                    <b><a href="{{order.product.get_absolute_url}}" class="main-text-color">Link</a></b>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    You haven't placed any order to other products on Trade Nepal yet!
+                    {% endif %}
+                </div>
+                <div id="menu3" class="tab-pane fade {% if request.user.is_seller %}in active{% endif %}">
+                    {% if request.user.is_seller %}
+                    <h3>
+                        {{shop.name}}
+                        {% if shop.block %}
+                        <span class="text-danger">(Blocked)</span>
+                        {% else %}
+                        {% if shop.hide %}
+                        <span class="text-danger">(Inactive)</span>
+                        {% else %}
+                        <span class="text-primary">(Active)</span>
+                        {% endif %}
+                        {% endif %}
+                        &nbsp;&nbsp;&nbsp; <a href="{% url 'shops:edit-shop' shop.pk %}" class="btn btn-success">Edit
+                            Brand</a> &nbsp;&nbsp;
+
+                        {% if shop.hide %}
+                        <a href="{% url 'shops:activate-shop' shop.pk %}" class="btn btn-primary">Activate Brand</a>
+                        {% else %}
+                        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#hideDokan">Hide Brand</a>
+                        {% endif %}
+
+
+                    </h3>
+                    <p>- <b>{{shop.category}}</b></p>
+                    <p>{{shop.description}}</p>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p>
+                                {% if shop.limited %}
+                                As a new free Brand owner, you can only add 20 products for now. If you want to remove
+                                this limit and add more products then please contact with the website adminitrator.
+                                {% else %}
+                                Limitation to add only 20 products has been removed. Now you can add as many products you want.
+                                {% endif %}
+                                <b>Total Products: {{products|length}}</b>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            {% if shop.limited %}
+                            {% if products|length < 20 %}
+                            <p class="text-right">
+                                <a href="{% url 'products:product-create' shop.pk %}" class="btn btn-primary">Create
+                                    Product</a>
+                            </p>
+                            {% endif %}
+                            {% else %}
+                            <p class="text-right">
+                                <a href="{% url 'products:product-create' shop.pk %}" class="btn btn-primary">Create
+                                    Product</a>
+                            </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <br>
+                    <ul class="list-group">
+                        {% for product in products %}
+                        <li class="list-group-item">
+                            <a href="{{product.get_absolute_url}}">
+                                #{{forloop.counter}} &nbsp;{{product.name}}
+                            </a>
+                            <span style="float:right;">
+                                <a href="{{product.get_absolute_url}}" class="text-success">
+                                    View
+                                </a>
+                                &nbsp;&nbsp;
+                                <a href="{% url 'products:product-edit' product.pk %}" class="text-primary">
+                                    Edit
+                                </a>
+                                &nbsp;&nbsp;
+                                <a href="{% url 'products:product-delete' product.pk %}" class="text-danger">
+                                    Delete
+                                </a>
+                            </span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <div class="text-center">
+                        <h4>To create your own online Brand on please click link below and fill up the form first.</h4>
+                        <br>
+                        <p>
+                            <b>
+                                <a href="{% url 'shops:create-shop' %}" class="btn-main-bg"
+                                    style="padding:6px 12px;">Create Dokan</a>
+                            </b>
+                        </p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+<br>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock content %}

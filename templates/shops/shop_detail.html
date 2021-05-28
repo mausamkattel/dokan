@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{{shop.name}} | Brands
+{% endblock title %}
+
+{% block meta %}
+    <!-- Primary Meta Tags -->
+<meta name="title" content="{{shop.name}} | Dokanharu">
+<meta name="description" content="{{shop.description}}">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{shop.name}} | Dokanharu">
+<meta property="og:description" content="{{shop.description}}">
+<meta property="og:image" content="https://dokanharu.com{{shop.image.url}}">
+
+{% endblock meta %}
+
+{% block content %}
+<br>
+<br>
+<div class="container">
+    <div class="heading-v1">
+        <h3 class="pull-left">About Brand</h3>
+
+        <div class="clearfix"></div>
+    </div>
+    <br>
+
+</div>
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-4">
+            <img src="{{shop.image.url}}" alt="{{shop.name}}" class="img-responsive">
+        </div>
+        <div class="col-md-8">
+            <h2>{{shop.name}} </h2>
+            <br>
+            <p>{% if shop.is_trusted %} 
+                <span style="color:white;background:#ffffff; padding:3px 4px; border-radius:3px;"><img src="{% static 'img/trust.png' %}"></span>
+                {% endif %}</p>
+            <br>
+            <h5>- {{shop.category}} Brand</h5>
+            <h5>Dealer Address - {{shop.address}}</h5>
+            <h5>PAN Number - {{shop.pan_number}}</h5>
+            <h5>Phone Number - {{shop.owner.phone}}</h5>
+            <br>
+            <p>{{shop.description}}</p>
+            <br>
+            <div>
+                <h5 class="titles">Share this Brand on:</h5>
+                <br>
+                <ul class="social">
+                    <li><a href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}"
+                            target="_blank"><i class="ion-social-facebook fa-3" aria-hidden="true"></i> </a>
+                    </li>
+
+                    <li><a href="https://twitter.com/home?status={{request.build_absolute_uri}}" target="_blank"><i
+                                class="ion-social-twitter fa-3" aria-hidden="true"></i></a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<section class="featured-product">
+    <div class="container">
+        <div class="heading-v1">
+            <h3 class="pull-left">All products of  {{shop.name}} Brands</h3>
+
+            <div class="clearfix"></div>
+        </div>
+        <div class="tab-content">
+            <div id="all" class="tab-pane fade in active">
+                <div class="prod-fea-list">
+                    <div class="row">
+                        {% for product in products %}
+                        {% include 'partials/_product.html' with type='featured' %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="product-pagination">
+            {% if is_paginated %}
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li><a href="?sort={{request.GET.sort}}&page={{ page_obj.previous_page_number }}">&laquo;</a>
+                </li>
+                {% else %}
+                <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in paginator.page_range %}
+                {% if page_obj.number == i %}
+                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                <li><a href="?sort={{request.GET.sort}}&page={{ i }}">{{ i }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li><a href="?sort={{request.GET.sort}}&page={{ page_obj.next_page_number }}">&raquo;</a>
+                </li>
+                {% else %}
+                <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

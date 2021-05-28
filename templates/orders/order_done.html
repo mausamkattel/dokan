@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Order Done
+{% endblock title %}
+{% block content %}
+<section class="checkout-page">
+    <div class="container">
+        <div class="heading-sub">
+            <h3 class="pull-left">order completed</h3>
+            <ul class="other-link-sub pull-right">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#shop">Shop</a></li>
+                <li><a class="active" href="#cart">Cart</a></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="complete-page text-center">
+            {% if order.user.id == request.user.id %}
+            <h2 class="status">
+                <span class="ion-checkmark-circled fa-4 icon-check"></span>
+                Congratulations! You’ve ordered <span>{{order.product.name}}</span> from
+                <span>{{order.product.shop.name}}</span>.
+            </h2>
+            <br>
+            <p class="lead my-2">
+                You may recieve call from the shop owner regarding confirmation of the order.
+            </p>
+            {% else %}
+            <h2>
+                Order not found
+            </h2>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

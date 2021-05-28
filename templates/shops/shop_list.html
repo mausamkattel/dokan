@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load remove_dash %}
+
+{% block title %}
+All Brands
+{% endblock title %}
+
+{% block content %}
+<section class="shop-list-v3-page">
+    <div class="container">
+        <div class="heading-sub">
+            <h3 class="pull-left">All Brands List</h3>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="widget-product-list">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="filter-block bd" style="padding-top:0 !important;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-view">
+
+                                    <div class="box sort pull-right">
+                                        <span>Change Category:</span>
+                                        <button class="dropdown-toggle" type="button" data-toggle="dropdown" id="menu2">
+                                            <span class="dropdown-label">{{category|title|remove_dash}}</span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+                                            <li><a href="{% url 'shops:all-shops' %}" title="">All</a>
+                                            </li>
+                                            {% for category in categories_list %}
+
+                                            <li><a href="{% url 'shops:all-shops' %}?category={{category.slug}}"
+                                                    title="">{{category.title}}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-7 margin-top3">
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="prod-fea-list">
+                            <div class="row">
+                                {% for shop in shops %}
+                                {% include 'partials/_shop.html' %}
+                                {% endfor %}
+                            </div>
+                            <div class="product-pagination">
+                                {% if is_paginated %}
+                                <ul class="pagination">
+                                    {% if page_obj.has_previous %}
+                                    <li><a
+                                            href="?sort={{request.GET.sort}}&page={{ page_obj.previous_page_number }}">&laquo;</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="disabled"><span>&laquo;</span></li>
+                                    {% endif %}
+                                    {% for i in paginator.page_range %}
+                                    {% if page_obj.number == i %}
+                                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                    {% else %}
+                                    <li><a href="?sort={{request.GET.sort}}&page={{ i }}">{{ i }}</a>
+                                    </li>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% if page_obj.has_next %}
+                                    <li><a
+                                            href="?sort={{request.GET.sort}}&page={{ page_obj.next_page_number }}">&raquo;</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="disabled"><span>&raquo;</span></li>
+                                    {% endif %}
+                                </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,90 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}
+Trade Nepal
+{% endblock title %}
+
+{% block branding %}
+<h1 id='head'>
+    Trade Nepal
+</h1>
+
+{% endblock branding %}
+{% block extrastyle %}
+<style>
+    input[class="default"],
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"] {
+        background: #0882e9 !important;
+        color: #fff !important;
+    }
+    div.breadcrumbs {
+        background: rgba(34, 34, 34, 0.842) !important;
+        color: #fff !important;
+    }
+    .module h2,
+    .module caption,
+    .inline-group h2,
+    [type="submit"] {
+        background: #0882e9 !important;
+        color: #fff !important;
+    }
+    h1#head {
+    color: #fff;
+    font-weight: 500;
+}
+
+#header {
+    background: #0882e9;
+    padding-bottom: 15px;
+    padding-top: 15px;
+
+}
+
+div.breadcrumbs {
+    background: #1f6cc5e5;
+    color: #fff !important;
+}
+
+div.breadcrumbs a {
+    color: #fff !important;
+}
+
+input[class="default"],
+input[type="button"i],
+input[type="submit"i],
+input[type="reset"i] {
+    background: D41B20 !important;
+    color: #fff !important;
+}
+
+.breadcrumbs a:link,
+.breadcrumbs a:visited {
+
+    text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+caption {
+    background: #0882e9;
+}
+
+.selector-chosen h2 {
+    background: #0882e9;
+    color: #fff;
+}
+
+.module h2,
+.module caption,
+.inline-group h2,
+[type="submit"] {
+    background: #0882e9;
+    color: #fff !important;
+}
+</style>
+{% endblock extrastyle %}

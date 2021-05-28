@@ -1,0 +1,23 @@
+<div
+    class="{% if type == 'featured' %}col-md-15 col-sm-4 col-xs-6{% elif type == 'newest' %}col-lg-4 col-md-4 col-sm-6 col-xs-6{% endif %}">
+    <div class="product-item ver2">
+        <div class="prod-item-img bd-style-2">
+            <a href="{{product.get_absolute_url}}"><img src="{{product.main_image.url}}" alt="images"
+                    class="img-responsive"></a>
+            <div class="button">
+                <a href="{% url 'orders:order_create' product.pk %}" class="addcart">Place Order</a>
+            </div>
+        </div>
+        <div class="prod-info">
+            <h3><a href="{{product.get_absolute_url}}">{{ product.name|truncatechars:33}}</a></h3>
+            <div class="p-price">
+                {% if product.discounted_price < product.price %}
+                <span class="price old">Rs. {{product.price}}</span>
+                <span class="price">Rs. {{product.discounted_price}}</span>
+                {% else %}
+                <span class="price black">Rs. {{product.price}}</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
